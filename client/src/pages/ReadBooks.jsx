@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { readApi } from '../api.js';
 
 // Sélecteur de note à 5 étoiles. Cliquer sur l'étoile courante remet à zéro.
@@ -89,6 +89,12 @@ export default function ReadBooks() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 
+  // Filtres et tri
+  const [query, setQuery] = useState('');
+  const [themeFilter, setThemeFilter] = useState('');
+  const [minRating, setMinRating] = useState(0);
+  const [sortBy, setSortBy] = useState('recent');
+
   useEffect(() => {
     readApi
       .list()
@@ -117,8 +123,43 @@ export default function ReadBooks() {
     }
   }
 
-  // Suggestions de thèmes déjà utilisés (pour l'autocomplétion).
-  const suggestions = [...new Set(reads.flatMap((r) => r.themes))].sort();
+  // Thèmes déjà utilisés (pour le filtre et l'autocomplétion).
+  const suggestions = useMemo(
+    () => [...new Set(reads.flatMap((r) => r.themes))].sort(),
+    [reads]
+  );
+
+  // Application de la recherche, des filtres et du tri.
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    let list = reads.filter((r) => {
+      const matchesText =
+        !q ||
+        r.title.toLowerCase().includes(q) ||
+        r.author.toLowerCase().includes(q);
+      const matchesTheme = !themeFilter || r.themes.includes(themeFilter);
+      const matchesRating = (r.rating || 0) >= minRating;
+      return matchesText && matchesTheme && matchesRating;
+    });
+
+    list = [...list].sort((a, b) => {
+      if (sortBy === 'title') return a.title.localeCompare(b.title);
+      if (sortBy === 'author') return a.author.localeCompare(b.author);
+      if (sortBy === 'rating') return (b.rating || 0) - (a.rating || 0);
+      // 'recent' : par date de lecture décroissante
+      return (b.readDate || '').localeCompare(a.readDate || '');
+    });
+    return list;
+  }, [reads, query, themeFilter, minRating, sortBy]);
+
+  const hasActiveFilters = query || themeFilter || minRating > 0;
+
+  function resetFilters() {
+    setQuery('');
+    setThemeFilter('');
+    setMinRating(0);
+    setSortBy('recent');
+  }
 
   return (
     <section>
@@ -133,16 +174,78 @@ export default function ReadBooks() {
         </p>
       ) : (
         <>
+          <div className="card filters">
+            <input
+              className="filter-search"
+              type="search"
+              placeholder="Rechercher un titre ou un auteur…"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+            <label>
+              Thème
+              <select
+                value={themeFilter}
+                onChange={(e) => setThemeFilter(e.target.value)}
+              >
+                <option value="">Tous</option>
+                {suggestions.map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Note min.
+              <select
+                value={minRating}
+                onChange={(e) => setMinRating(Number(e.target.value))}
+              >
+                <option value={0}>Toutes</option>
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <option key={n} value={n}>
+                    {'★'.repeat(n)} et +
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Trier par
+              <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                <option value="recent">Lu récemment</option>
+                <option value="title">Titre (A→Z)</option>
+                <option value="author">Auteur (A→Z)</option>
+                <option value="rating">Note (élevée→basse)</option>
+              </select>
+            </label>
+            {hasActiveFilters && (
+              <button className="reset-btn" onClick={resetFilters}>
+                Réinitialiser
+              </button>
+            )}
+          </div>
+
+          <p className="result-count">
+            {filtered.length} livre{filtered.length > 1 ? 's' : ''}
+            {hasActiveFilters ? ` sur ${reads.length}` : ''}
+          </p>
+
           <datalist id="theme-suggestions">
             {suggestions.map((s) => (
               <option key={s} value={s} />
             ))}
           </datalist>
-          <ul className="list">
-            {reads.map((r) => (
-              <ReadCard key={r.id} read={r} onChange={update} onRemove={remove} />
-            ))}
-          </ul>
+
+          {filtered.length === 0 ? (
+            <p>Aucun livre ne correspond à ces critères.</p>
+          ) : (
+            <ul className="list">
+              {filtered.map((r) => (
+                <ReadCard key={r.id} read={r} onChange={update} onRemove={remove} />
+              ))}
+            </ul>
+          )}
         </>
       )}
     </section>

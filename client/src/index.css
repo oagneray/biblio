@@ -296,6 +296,58 @@ button.danger:hover {
   font-size: 0.9rem;
 }
 
+/* Barre de recherche et filtres (Ma bibliothèque) */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.filter-search {
+  flex: 1 1 220px;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid #cbd2d9;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.filters label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #52606d;
+}
+
+.filters select {
+  padding: 0.4rem 0.5rem;
+  border: 1px solid #cbd2d9;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #1f2933;
+  background: #fff;
+}
+
+.reset-btn {
+  background: #e4e7eb;
+  color: #3e4c59;
+  font-size: 0.85rem;
+}
+
+.reset-btn:hover {
+  background: #cbd2d9;
+}
+
+.result-count {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  color: #7b8794;
+}
+
 /* Page Mindmap */
 .mm-controls {
   display: flex;
