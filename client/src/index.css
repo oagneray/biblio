@@ -1,0 +1,340 @@
+:root {
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: #1f2933;
+  background: #f5f7fa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+h1 {
+  text-align: center;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e4e7eb;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.form input {
+  flex: 1 1 120px;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #cbd2d9;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+button {
+  padding: 0.55rem 0.9rem;
+  border: none;
+  border-radius: 8px;
+  background: #3b82f6;
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #2563eb;
+}
+
+button.danger {
+  background: #ef4444;
+}
+
+button.danger:hover {
+  background: #dc2626;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.book {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.book.read strong {
+  text-decoration: line-through;
+  color: #7b8794;
+}
+
+.meta {
+  display: block;
+  color: #7b8794;
+  font-size: 0.85rem;
+  margin-top: 0.2rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.error {
+  color: #dc2626;
+  text-align: center;
+}
+
+/* Navigation par onglets */
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.tab {
+  background: #e4e7eb;
+  color: #3e4c59;
+}
+
+.tab:hover {
+  background: #cbd2d9;
+}
+
+.tab.active {
+  background: #3b82f6;
+  color: #fff;
+}
+
+/* Élément sélectionné dans une liste */
+.card.selected {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+
+/* Grille des œuvres d'un auteur */
+.works {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.8rem;
+}
+
+.work {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.4rem;
+}
+
+.cover {
+  width: 90px;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #e4e7eb;
+}
+
+.cover--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+.work-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+  line-height: 1.2;
+}
+
+/* Case "Lu" sur la page bibliographie */
+.read-check {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.read-check input {
+  width: 1.05rem;
+  height: 1.05rem;
+  cursor: pointer;
+}
+
+/* Cartes de livres lus */
+.read-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.read-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.read-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.field-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #52606d;
+  min-width: 60px;
+}
+
+/* Étoiles de notation */
+.stars {
+  display: inline-flex;
+  gap: 0.1rem;
+}
+
+.star {
+  background: none;
+  color: #cbd2d9;
+  padding: 0;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.star:hover {
+  background: none;
+}
+
+.star.on {
+  color: #f59e0b;
+}
+
+/* Étiquettes thématiques */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: #e0e7ff;
+  color: #3730a3;
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.8rem;
+}
+
+.tag button {
+  background: none;
+  color: #6366f1;
+  padding: 0;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.tag button:hover {
+  background: none;
+  color: #3730a3;
+}
+
+.tag-form {
+  display: inline-flex;
+  gap: 0.25rem;
+}
+
+.tag-form input {
+  border: 1px solid #cbd2d9;
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.8rem;
+  width: 140px;
+}
+
+.tag-form button {
+  padding: 0.2rem 0.6rem;
+  font-size: 0.9rem;
+}
+
+/* Page Mindmap */
+.mm-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.mm-controls label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #52606d;
+}
+
+.mm-controls select {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #cbd2d9;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #1f2933;
+  background: #fff;
+}
+
+.mm-count {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: #7b8794;
+}
+
+.mindmap {
+  height: 70vh;
+  min-height: 460px;
+  border: 1px solid #e4e7eb;
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+}
